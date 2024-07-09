@@ -16,3 +16,5 @@ async function getData() {
         throw error;
     }
 }
+
+export default getData

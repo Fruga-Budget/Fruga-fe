@@ -1,0 +1,12 @@
+header{
+    display:flex;
+    justify-content: space-between;
+    flex-direction: row;
+    align-items: center;
+    width: 99vw;
+    border-bottom: 2px solid #5B7C99;
+}
+.app-name{
+    display: flex;
+    flex-direction: row;
+}
