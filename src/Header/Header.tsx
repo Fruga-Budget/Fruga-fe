@@ -1,5 +1,6 @@
 import Fruga from "../assets/Fruga-img.jpeg"
 import "./Header.css"
+import { Link } from "react-router-dom"
 function Header(){
     return(
         <header className="header">
@@ -12,7 +13,9 @@ function Header(){
                 </div>
             </div>
             <div className="log-in">
-                <h3>Log In</h3>
+                <Link to={"/log-up"}>
+                    <button>Returning User? Log in here!</button>
+                </Link>
             </div>
         </header>
     )

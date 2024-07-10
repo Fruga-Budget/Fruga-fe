@@ -1,6 +1,7 @@
 import "./LandingPage.css"
 import PieChart from "../Pie/Pie"
 import genericPieData from "../Pie/Mock"
+import { Link } from "react-router-dom"
 
 interface DataSet {
     label: string;
@@ -14,7 +15,7 @@ interface GenericPieData {
     datasets: DataSet[];
 }
 interface LandingPageProps {
-    data: GenericPieData;
+    data?: GenericPieData;
 }
 
 const LandingPage: React.FC<LandingPageProps> = ({ data }) => {
@@ -40,7 +41,9 @@ const LandingPage: React.FC<LandingPageProps> = ({ data }) => {
                     </aside>
                 </div>
                 <div className="button">
-                    <button>Let's Get Started!</button>
+                    <Link to={'/getting-started'}>
+                        <button>Let's Get Started!</button>
+                    </Link>
                 </div>
             </main>
         </>
