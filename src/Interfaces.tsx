@@ -13,7 +13,7 @@ export interface LandingPageProps {
     data?: GenericPieData;
 }
 export interface GrossIncome{
-
+    income:number
 }
 export interface Needs{
 
@@ -22,5 +22,5 @@ export interface Wants {
 
 }
 export interface Savings {
-    
+
 }
