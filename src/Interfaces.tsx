@@ -12,15 +12,29 @@ export interface GenericPieData {
 export interface LandingPageProps {
     data?: GenericPieData;
 }
-export interface GrossIncome{
-    income:number
+export interface ExpenseItem {
+    name: string;
+    amount: number;
 }
-export interface Needs{
 
+export interface Expenses {
+    wants: ExpenseItem[];
+    needs: ExpenseItem[];
+    savings: ExpenseItem[];
 }
-export interface Wants {
 
+export interface BudgetInfo {
+    grossIncome: number;
+    expenses: Expenses;
 }
-export interface Savings {
 
+export interface UserBudget {
+    budgetID: number;
+    budgetInfo: BudgetInfo;
+    gptAdvice: string[];
+}
+
+export interface APIData {
+    userID: number;
+    userBudgets: UserBudget[];
 }
