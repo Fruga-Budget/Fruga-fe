@@ -44,11 +44,12 @@ a {
 .button {
     display: flex;
     justify-content: center;
-    margin-top: 2rem;
 }
 
 button {
     height: 35px;
     border-radius: 7px;
     color: aliceblue;
+    margin-top: 1rem;
+    margin-right: 1rem;
 }

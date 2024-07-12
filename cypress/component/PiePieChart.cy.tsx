@@ -1,9 +1,9 @@
 import React from 'react'
-import App from './App'
+import PieChart from '../../src/Pie/Pie'
 
-describe('<App />', () => {
+describe('<PieChart />', () => {
   it('renders', () => {
     // see: https://on.cypress.io/mounting-react
-    cy.mount(<App />)
+    cy.mount(<PieChart />)
   })
 })

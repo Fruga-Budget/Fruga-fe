@@ -2,21 +2,8 @@ import "./LandingPage.css"
 import PieChart from "../Pie/Pie"
 import genericPieData from "../Pie/Mock"
 import { Link } from "react-router-dom"
+import {LandingPageProps} from "../Interfaces"
 
-interface DataSet {
-    label: string;
-    data: number[];
-    backgroundColor: string[];
-    hoverOffset: number;
-}
-
-interface GenericPieData {
-    labels: string[];
-    datasets: DataSet[];
-}
-interface LandingPageProps {
-    data?: GenericPieData;
-}
 
 const LandingPage: React.FC<LandingPageProps> = ({ data }) => {
     data = genericPieData;

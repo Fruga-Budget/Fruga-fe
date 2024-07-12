@@ -27,7 +27,7 @@ const PieChart: React.FC<PieChartProps> = ({ data = genericPieData }) => {
 
     return (
         <div className="pie">
-            <Pie options={options} data={data} />;
+            <Pie options={options} data={data} />
         </div>
     )
 };
