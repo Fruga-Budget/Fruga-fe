@@ -2,6 +2,7 @@ import "./Form.css"
 import {Expenses, BudgetInfo} from "../Interfaces"
 import { useState } from "react"
 import PieChart from "../Pie/Pie";
+import { Link } from "react-router-dom";
 
 const Form: React.FC = () => {
     const [step, setStep] = useState<number>(1);
@@ -145,7 +146,7 @@ const Form: React.FC = () => {
                         ))}
                         <button type="button" onClick={() => handleAddExpense('savings')}>Add Saving</button>
                         <button type="button" onClick={handlePrev}>Previous</button>
-                        <button type="submit">Submit</button>
+                        <Link to={'/results'}><button type="submit">Submit</button></Link>
                     </div>
                 );
             default:
@@ -176,6 +177,19 @@ const Form: React.FC = () => {
         };
     };
 
+    const netIncome = () => {
+        const { wants, needs, savings } = budgetInfo.expenses;
+        const totalWants = wants.reduce((sum, item) => sum + item.amount, 0);
+        const totalNeeds = needs.reduce((sum, item) => sum + item.amount, 0);
+        const totalSavings = savings.reduce((sum, item) => sum + item.amount, 0);
+        const totalExpenses = totalWants + totalNeeds + totalSavings;
+        return budgetInfo.grossIncome - totalExpenses;
+    };
+    const netIncomeValue = netIncome();
+    const netIncomeStyle = {
+        color: netIncomeValue > 0 ? 'green' : netIncomeValue < 0 ? 'red' : 'black'
+    };
+
     return (
         <>
         <div className="container">
@@ -187,8 +201,8 @@ const Form: React.FC = () => {
             <div className="pie-chart">
                 <PieChart data={transformDataForChart()} />
                 <div className="income-view">
-                    <h3>Gross Income: </h3>
-                    <h3>Net Income: </h3>
+                    <h3>Gross Income: {budgetInfo.grossIncome} </h3>
+                    <h3 style={netIncomeStyle}>Net Income: {netIncome()} </h3>
                 </div>
             </div>
         </div>
