@@ -16,6 +16,7 @@ function Header(){
                 <Link to={"/log-in"}>
                     <button disabled className="user-log">Returning User? Log in here!</button>
                 </Link>
+                Coming Soon!
             </div>
         </header>
     )
