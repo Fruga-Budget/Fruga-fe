@@ -59,7 +59,7 @@ const Form: React.FC = () => {
         switch (step) {
             case 1:
                 return (
-                    <div>
+                    <div className="form">
                         <label>Gross Income</label>
                         <input
                             type="number"

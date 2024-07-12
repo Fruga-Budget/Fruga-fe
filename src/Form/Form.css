@@ -7,8 +7,18 @@
     justify-self: flex-end;
 }
 .budget{
-    width: 50vw;
+    width: 50vw;    
 }
 form>button{
     margin-right: 1rem;
+}
+input{
+    margin-right: 2rem;
+    margin-left: .5rem;
+}
+.form{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
 }
