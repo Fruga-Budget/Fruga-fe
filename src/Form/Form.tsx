@@ -3,7 +3,6 @@ import {Expenses, BudgetInfo} from "../Interfaces"
 import { useState } from "react"
 import PieChart from "../Pie/Pie";
 
-
 const Form: React.FC = () => {
     const [step, setStep] = useState<number>(1);
 
@@ -15,7 +14,6 @@ const Form: React.FC = () => {
             savings: []
         }
     });
-
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>, category: keyof Expenses | 'grossIncome', index?: number) => {
         const { name, value } = e.target;
         if (category === 'grossIncome') {
@@ -52,7 +50,6 @@ const Form: React.FC = () => {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         console.log(budgetInfo);
-        // Handle final form submission
     };
 
     const renderStep = () => {
@@ -189,6 +186,10 @@ const Form: React.FC = () => {
             </div>
             <div className="pie-chart">
                 <PieChart data={transformDataForChart()} />
+                <div className="income-view">
+                    <h3>Gross Income: </h3>
+                    <h3>Net Income: </h3>
+                </div>
             </div>
         </div>
         </>
