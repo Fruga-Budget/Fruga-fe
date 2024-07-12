@@ -1,5 +1,5 @@
 import React from 'react'
-import Form from './Form'
+import Form from '../../src/Form/Form'
 
 describe('<Form />', () => {
   it('renders', () => {

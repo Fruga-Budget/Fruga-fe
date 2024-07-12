@@ -1,5 +1,6 @@
 import React from 'react'
-import LandingPage from './LandingPage'
+import LandingPage from '../../src/LandingPage/LandingPage'
+import 'cypress/react18';
 
 describe('<LandingPage />', () => {
   it('renders', () => {

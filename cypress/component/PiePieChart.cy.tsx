@@ -1,5 +1,5 @@
 import React from 'react'
-import PieChart from './Pie'
+import PieChart from '../../src/Pie/Pie'
 
 describe('<PieChart />', () => {
   it('renders', () => {
