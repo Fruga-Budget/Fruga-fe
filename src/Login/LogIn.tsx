@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+// import { UserBudget } from '../Interfaces';
 
 const LoginPage = () => {
   const [username, setUsername] = useState('');
@@ -7,21 +8,24 @@ const LoginPage = () => {
   const [name, setName] = useState('');
   const [isRegistering, setIsRegistering] = useState(false);
   const [error, setError] = useState('');
+  const [nextUserId, setNextUserId] = useState(1); 
+  const [userId, setUserId] = useState<number | null>(null);
+  const navigate = useNavigate();
 
   const handleLogin = () => {
-    // Simulate login logic, here you would typically make an API call
     if (username === 'example' && password === 'password') {
-      // Successful login logic, could redirect or set a flag
-      alert('Logged in successfully!');
+      const userId = 1;
+      setUserId(userId);
+      navigate(`/getting-started/${userId}`);
     } else {
       setError('Invalid username or password.');
     }
   };
 
   const handleRegister = () => {
-    // Simulate registration logic, here you would typically make an API call
     if (name && username && password) {
-      // Successful registration logic, could redirect or set a flag
+      setUserId(nextUserId);
+      setNextUserId(nextUserId + 1);
       setIsRegistering(false);
       alert('Registered successfully!');
     } else {
@@ -54,9 +58,13 @@ const LoginPage = () => {
         </div>
         <div>
           {isRegistering ? (
-            <Link to={'/getting-started'}><button type="button" onClick={handleRegister}>Register</button></Link>
+            <Link to={userId !== null ? `/getting-started/${userId}` : '#'}>
+              <button type="button" onClick={handleRegister}>Register</button>
+            </Link>
           ) : (
-            <Link><button type="button" onClick={handleLogin}>Login</button></Link>
+            <Link to={userId !== null ? `/getting-started/${userId}` : '#'}>
+              <button type="button" onClick={handleLogin}>Login</button>
+            </Link>
           )}
           <button type="button" onClick={toggleRegister}>
             {isRegistering ? 'Back to Login' : 'Register'}

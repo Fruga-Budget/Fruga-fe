@@ -28,7 +28,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ data }) => {
                     </aside>
                 </div>
                 <div className="button">
-                    <Link to={'/getting-started'}>
+                    <Link to={'/log-in'}>
                         <button>Let's Get Started!</button>
                     </Link>
                 </div>

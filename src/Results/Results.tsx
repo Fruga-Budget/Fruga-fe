@@ -218,7 +218,7 @@ const Results: React.FC = () => {
                     ))}
                 </ul>
             </div>
-            <Link to={'/getting-started'}><button>Go Back!</button></Link>
+            <Link to={'/getting-started/1'}><button>Go Back!</button></Link>
         </>
     );
 };
