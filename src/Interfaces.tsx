@@ -38,3 +38,7 @@ export interface APIData {
     userID: number;
     userBudgets: UserBudget[];
 }
+export interface GenericPieData {
+    labels: string[];
+    datasets: DataSet[];
+}

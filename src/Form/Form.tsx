@@ -2,11 +2,10 @@ import "./Form.css"
 import {Expenses, BudgetInfo} from "../Interfaces"
 import { useState } from "react"
 import PieChart from "../Pie/Pie";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Form: React.FC = () => {
     const [step, setStep] = useState<number>(1);
-    const history = useNavigate()
 
     const [budgetInfo, setBudgetInfo] = useState<BudgetInfo>({
         grossIncome: 0,
@@ -51,8 +50,9 @@ const Form: React.FC = () => {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        console.log(budgetInfo);
-        history.push('/results', { budgetInfo })
+        localStorage.setItem('budgetInfo', JSON.stringify(budgetInfo));
+        window.location.href = '/results';
+        
     };
 
     const renderStep = () => {
@@ -148,7 +148,7 @@ const Form: React.FC = () => {
                         ))}
                         <button type="button" onClick={() => handleAddExpense('savings')}>Add Saving</button>
                         <button type="button" onClick={handlePrev}>Previous</button>
-                        <Link to={{pathname: '/results', state: { budgetInfo }}}><button type="submit">Submit</button></Link>
+                        <Link to={'/results'}><button onClick={handleSubmit} type="submit">Submit</button></Link>
                     </div>
                 );
             default:

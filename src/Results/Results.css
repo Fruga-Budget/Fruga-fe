@@ -1,0 +1,12 @@
+.results{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+.pie{
+    width: 35rem;
+}
+.budget-header{
+    display: flex;
+    justify-content: space-between;
+}

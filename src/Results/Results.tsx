@@ -1,18 +1,25 @@
 import "./Results.css";
 import PieChart from "../Pie/Pie";
-import { useLocation } from "react-router-dom";
-import { BudgetInfo } from "../Interfaces";
+import { useEffect, useState } from "react";
+import { ExpenseItem, UserBudget, GenericPieData, Expenses } from "../Interfaces";
+import mockBudget from "./Mockbudget";
 
 const Results: React.FC = () => {
-    const location = useLocation();
-    const budgetInfo = location.state as BudgetInfo;
+    const [userBudget, setUserBudget] = useState<UserBudget | null>(null);
+    const [isEditing, setIsEditing] = useState<boolean>(false)
+    
+    useEffect(() => {
+        setUserBudget(mockBudget.userBudgets[0]);
+    }, []);
 
-    const transformDataForChart = () => {
-        const { wants, needs, savings } = budgetInfo.expenses;
-        const totalWants = wants.reduce((sum, item) => sum + item.amount, 0);
-        const totalNeeds = needs.reduce((sum, item) => sum + item.amount, 0);
-        const totalSavings = savings.reduce((sum, item) => sum + item.amount, 0);
-        
+    const transformDataForChart = (): GenericPieData | undefined => {
+        if (!userBudget) return undefined;
+    
+        const { wants, needs, savings } = userBudget.budgetInfo.expenses;
+        const totalWants = calculateTotalAmount(wants);
+        const totalNeeds = calculateTotalAmount(needs);
+        const totalSavings = calculateTotalAmount(savings);
+    
         return {
             labels: ['Needs', 'Wants', 'Savings'],
             datasets: [
@@ -30,59 +37,160 @@ const Results: React.FC = () => {
         };
     };
 
+    const calculateTotalAmount = (expenses: ExpenseItem[]): number => {
+        return expenses.reduce((sum, item) => sum + item.amount, 0);
+    };
+
     const netIncome = () => {
-        const { wants, needs, savings } = budgetInfo.expenses;
-        const totalWants = wants.reduce((sum, item) => sum + item.amount, 0);
-        const totalNeeds = needs.reduce((sum, item) => sum + item.amount, 0);
-        const totalSavings = savings.reduce((sum, item) => sum + item.amount, 0);
-        const totalExpenses = totalWants + totalNeeds + totalSavings;
-        return budgetInfo.grossIncome - totalExpenses;
+        if (!userBudget) return 0;
+
+        const { grossIncome, expenses } = userBudget.budgetInfo;
+        const totalExpenses = calculateTotalAmount(expenses.needs) + calculateTotalAmount(expenses.wants) + calculateTotalAmount(expenses.savings);
+        return grossIncome - totalExpenses;
     };
 
     const netIncomeValue = netIncome();
     const netIncomeStyle = {
         color: netIncomeValue > 0 ? 'green' : netIncomeValue < 0 ? 'red' : 'black'
     };
+    const toggleEditMode = () => {
+        setIsEditing(prev => !prev); // Toggle between true and false
+    };
+    const handleExpenseNameChange = (e: React.ChangeEvent<HTMLInputElement>, category: keyof Expenses, index: number) => {
+        const updatedBudget = { ...userBudget };
+        updatedBudget.budgetInfo.expenses[category][index].name = e.target.value;
+        setUserBudget(updatedBudget);
+    };
 
-    return(
+    const handleExpenseAmountChange = (e: React.ChangeEvent<HTMLInputElement>, category: keyof Expenses, index: number) => {
+        const updatedBudget = { ...userBudget };
+        updatedBudget.budgetInfo.expenses[category][index].amount = parseFloat(e.target.value);
+        setUserBudget(updatedBudget);
+    };
+
+    
+    return (
         <>
-            <div className="full-budget">
-                <div className="budget-header">
-                    <h3>Budget</h3>
-                    <button className="edit">Edit</button>
+            <div className="results">
+                <div>
+                    {userBudget && (
+                        <div className="full-budget">
+                            <div className="budget-header">
+                                <h3>Budget</h3>
+                                <button className="edit" onClick={toggleEditMode}>
+                                    {isEditing ? 'Save' : 'Edit'}
+                                </button>
+                            </div>
+                            <div className="budget-data">
+                                <h5>Gross Income: {userBudget.budgetInfo.grossIncome}</h5>
+                                {isEditing ? (
+                                    <>
+                                        {/* Render editable fields */}
+                                        <div>
+                                            <h5>Needs</h5>
+                                            <ul>
+                                                {userBudget.budgetInfo.expenses.needs.map((expense, index) => (
+                                                    <li key={index}>
+                                                        <input
+                                                            type="text"
+                                                            value={expense.name}
+                                                            onChange={(e) => handleExpenseNameChange(e, 'needs', index)}
+                                                        />
+                                                        <input
+                                                            type="number"
+                                                            value={expense.amount}
+                                                            onChange={(e) => handleExpenseAmountChange(e, 'needs', index)}
+                                                        />
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                        <div>
+                                            <h5>Wants</h5>
+                                            <ul>
+                                                {userBudget.budgetInfo.expenses.wants.map((expense, index) => (
+                                                    <li key={index}>
+                                                        <input
+                                                            type="text"
+                                                            value={expense.name}
+                                                            onChange={(e) => handleExpenseNameChange(e, 'wants', index)}
+                                                        />
+                                                        <input
+                                                            type="number"
+                                                            value={expense.amount}
+                                                            onChange={(e) => handleExpenseAmountChange(e, 'wants', index)}
+                                                        />
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                        <div>
+                                            <h5>Savings</h5>
+                                            <ul>
+                                                {userBudget.budgetInfo.expenses.savings.map((expense, index) => (
+                                                    <li key={index}>
+                                                        <input
+                                                            type="text"
+                                                            value={expense.name}
+                                                            onChange={(e) => handleExpenseNameChange(e, 'savings', index)}
+                                                        />
+                                                        <input
+                                                            type="number"
+                                                            value={expense.amount}
+                                                            onChange={(e) => handleExpenseAmountChange(e, 'savings', index)}
+                                                        />
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    </>
+                                ) : (
+                                    <>
+                                        <div>
+                                            <h5>Needs</h5>
+                                            <ul>
+                                                {userBudget.budgetInfo.expenses.needs.map((expense, index) => (
+                                                    <li key={index}>{expense.name}: {expense.amount}</li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                        <div>
+                                            <h5>Wants</h5>
+                                            <ul>
+                                                {userBudget.budgetInfo.expenses.wants.map((expense, index) => (
+                                                    <li key={index}>{expense.name}: {expense.amount}</li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                        <div>
+                                            <h5>Savings</h5>
+                                            <ul>
+                                                {userBudget.budgetInfo.expenses.savings.map((expense, index) => (
+                                                    <li key={index}>{expense.name}: {expense.amount}</li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    </>
+                                )}
+                                <h5 style={netIncomeStyle}>Net Income: {netIncomeValue}</h5>
+                            </div>
+                        </div>
+                    )}
                 </div>
-                <div className="budget-data">
-                    <h5>Gross Income: {budgetInfo.grossIncome}</h5>
-                    <div>
-                        <h5>Needs</h5>
-                        <ul>
-                            {budgetInfo.expenses.needs.map((expense, index) => (
-                                <li key={index}>{expense.name}: {expense.amount}</li>
-                            ))}
-                        </ul>
-                    </div>
-                    <div>
-                        <h5>Wants</h5>
-                        <ul>
-                            {budgetInfo.expenses.wants.map((expense, index) => (
-                                <li key={index}>{expense.name}: {expense.amount}</li>
-                            ))}
-                        </ul>
-                    </div>
-                    <div>
-                        <h5>Savings</h5>
-                        <ul>
-                            {budgetInfo.expenses.savings.map((expense, index) => (
-                                <li key={index}>{expense.name}: {expense.amount}</li>
-                            ))}
-                        </ul>
-                    </div>
-                    <h5 style={netIncomeStyle}>Net Income: {netIncomeValue}</h5>
+                <div className="">
+                    {userBudget && <PieChart data={transformDataForChart() as GenericPieData} />}
                 </div>
             </div>
-            <PieChart data={transformDataForChart()} />
+            <div className="suggestion">
+                <h4>Suggestions</h4>
+                <ul>
+                    {userBudget?.gptAdvice.map((advice, index) => (
+                        <li key={index}>{advice}</li>
+                    ))}
+                </ul>
+            </div>
         </>
     );
-}
+};
 
 export default Results;
