@@ -1,10 +1,13 @@
 import "./Form.css"
-import {Expenses, BudgetInfo} from "../Interfaces"
+import {Expenses, BudgetInfo, } from "../Interfaces"
 import { useState } from "react"
 import PieChart from "../Pie/Pie";
-import { Link } from "react-router-dom";
+import { Link, useNavigate   } from "react-router-dom";
 
-const Form: React.FC = () => {
+interface FormProps {
+    onSubmit: (budgetInfo: BudgetInfo) => void;
+  }
+  const Form: React.FC<FormProps> = ({ onSubmit }) => {
     const [step, setStep] = useState<number>(1);
 
     const [budgetInfo, setBudgetInfo] = useState<BudgetInfo>({
@@ -15,6 +18,7 @@ const Form: React.FC = () => {
             savings: []
         }
     });
+    const navigate = useNavigate()                                                                                                                                                                                                                                                                                                                            
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>, category: keyof Expenses | 'grossIncome', index?: number) => {
         const { name, value } = e.target;
         if (category === 'grossIncome') {
@@ -50,8 +54,9 @@ const Form: React.FC = () => {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+        onSubmit(budgetInfo)
         localStorage.setItem('budgetInfo', JSON.stringify(budgetInfo));
-        window.location.href = '/results';
+        navigate('/results');
         
     };
 

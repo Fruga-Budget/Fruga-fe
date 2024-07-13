@@ -2,24 +2,38 @@ import "./Results.css";
 import PieChart from "../Pie/Pie";
 import { useEffect, useState } from "react";
 import { ExpenseItem, UserBudget, GenericPieData, Expenses } from "../Interfaces";
-import mockBudget from "./Mockbudget";
+import { Link } from "react-router-dom";
+
+const getUserBudgetFromLocalStorage = (): UserBudget | null => {
+    const storedBudget = localStorage.getItem('userBudget');
+    if (storedBudget) {
+        console.log("Retrieved budget from local storage:", JSON.parse(storedBudget));
+        return JSON.parse(storedBudget) as UserBudget; // Parse and return as UserBudget
+    } else {
+        console.log("No budget found in local storage.");
+        return null;
+    }
+};
 
 const Results: React.FC = () => {
     const [userBudget, setUserBudget] = useState<UserBudget | null>(null);
-    const [isEditing, setIsEditing] = useState<boolean>(false)
-    
+    const [isEditing, setIsEditing] = useState<boolean>(false);
+
     useEffect(() => {
-        setUserBudget(mockBudget.userBudgets[0]);
+        const storedBudget = getUserBudgetFromLocalStorage();
+        if (storedBudget) {
+            setUserBudget(storedBudget);
+        }
     }, []);
 
     const transformDataForChart = (): GenericPieData | undefined => {
         if (!userBudget) return undefined;
-    
+
         const { wants, needs, savings } = userBudget.budgetInfo.expenses;
         const totalWants = calculateTotalAmount(wants);
         const totalNeeds = calculateTotalAmount(needs);
         const totalSavings = calculateTotalAmount(savings);
-    
+
         return {
             labels: ['Needs', 'Wants', 'Savings'],
             datasets: [
@@ -53,39 +67,52 @@ const Results: React.FC = () => {
     const netIncomeStyle = {
         color: netIncomeValue > 0 ? 'green' : netIncomeValue < 0 ? 'red' : 'black'
     };
+
     const toggleEditMode = () => {
-        setIsEditing(prev => !prev); // Toggle between true and false
+        setIsEditing(prev => !prev);
     };
+
     const handleExpenseNameChange = (e: React.ChangeEvent<HTMLInputElement>, category: keyof Expenses, index: number) => {
+        if (!userBudget) return;
+
         const updatedBudget = { ...userBudget };
         updatedBudget.budgetInfo.expenses[category][index].name = e.target.value;
         setUserBudget(updatedBudget);
     };
 
     const handleExpenseAmountChange = (e: React.ChangeEvent<HTMLInputElement>, category: keyof Expenses, index: number) => {
+        if (!userBudget) return;
+
         const updatedBudget = { ...userBudget };
         updatedBudget.budgetInfo.expenses[category][index].amount = parseFloat(e.target.value);
         setUserBudget(updatedBudget);
     };
 
-    
+    const clearLocalStorage = () => {
+        localStorage.removeItem('userBudget');
+        setUserBudget(null);
+        console.log("Cleared budget from local storage.");
+    };
+
     return (
         <>
             <div className="results">
                 <div>
-                    {userBudget && (
+                    {userBudget ? (
                         <div className="full-budget">
                             <div className="budget-header">
                                 <h3>Budget</h3>
                                 <button className="edit" onClick={toggleEditMode}>
                                     {isEditing ? 'Save' : 'Edit'}
                                 </button>
+                                <button className="clear" onClick={clearLocalStorage}>
+                                    Clear Data
+                                </button>
                             </div>
                             <div className="budget-data">
                                 <h5>Gross Income: {userBudget.budgetInfo.grossIncome}</h5>
                                 {isEditing ? (
                                     <>
-                                        {/* Render editable fields */}
                                         <div>
                                             <h5>Needs</h5>
                                             <ul>
@@ -175,6 +202,8 @@ const Results: React.FC = () => {
                                 <h5 style={netIncomeStyle}>Net Income: {netIncomeValue}</h5>
                             </div>
                         </div>
+                    ) : (
+                        <p>No budget data available.</p>
                     )}
                 </div>
                 <div className="">
@@ -189,6 +218,7 @@ const Results: React.FC = () => {
                     ))}
                 </ul>
             </div>
+            <Link to={'/getting-started'}><button>Go Back!</button></Link>
         </>
     );
 };
