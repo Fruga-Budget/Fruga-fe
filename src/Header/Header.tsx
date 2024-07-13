@@ -14,9 +14,8 @@ function Header(){
             </div>
             <div className="log-in">
                 <Link to={"/log-in"}>
-                    <button disabled className="user-log">Returning User? Log in here!</button>
+                    <button className="user-log">Returning User? Log in here!</button>
                 </Link>
-                Coming Soon!
             </div>
         </header>
     )
