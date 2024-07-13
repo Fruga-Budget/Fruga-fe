@@ -22,6 +22,9 @@ function App() {
         <Route path='/' element={<LandingPage data={genericPieData} />} />
         <Route path='/getting-started' element={<Form onSubmit={handleFormSubmit} />} />
         <Route path='/results' element={<Results />} />
+        {/* <Route path='/log-in'  element={} /> */}
+        {/* <Route path='/log-in'  element={} />
+        <Route path='/log-in'  element={} /> */}
       </Routes>
     </>
   )

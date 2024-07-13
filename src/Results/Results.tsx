@@ -8,7 +8,7 @@ const getUserBudgetFromLocalStorage = (): UserBudget | null => {
     const storedBudget = localStorage.getItem('userBudget');
     if (storedBudget) {
         console.log("Retrieved budget from local storage:", JSON.parse(storedBudget));
-        return JSON.parse(storedBudget) as UserBudget; // Parse and return as UserBudget
+        return JSON.parse(storedBudget) as UserBudget; 
     } else {
         console.log("No budget found in local storage.");
         return null;
