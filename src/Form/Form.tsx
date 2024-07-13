@@ -1,13 +1,10 @@
 import "./Form.css"
-import {Expenses, BudgetInfo, } from "../Interfaces"
+import {Expenses, BudgetInfo} from "../Interfaces"
 import { useState } from "react"
 import PieChart from "../Pie/Pie";
-import { Link, useNavigate   } from "react-router-dom";
 
-interface FormProps {
-    onSubmit: (budgetInfo: BudgetInfo) => void;
-  }
-  const Form: React.FC<FormProps> = ({ onSubmit }) => {
+
+const Form: React.FC = () => {
     const [step, setStep] = useState<number>(1);
 
     const [budgetInfo, setBudgetInfo] = useState<BudgetInfo>({
@@ -18,7 +15,7 @@ interface FormProps {
             savings: []
         }
     });
-    const navigate = useNavigate()                                                                                                                                                                                                                                                                                                                            
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>, category: keyof Expenses | 'grossIncome', index?: number) => {
         const { name, value } = e.target;
         if (category === 'grossIncome') {
@@ -54,10 +51,8 @@ interface FormProps {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        onSubmit(budgetInfo)
-        localStorage.setItem('budgetInfo', JSON.stringify(budgetInfo));
-        navigate('/results');
-        
+        console.log(budgetInfo);
+        // Handle final form submission
     };
 
     const renderStep = () => {
@@ -153,7 +148,7 @@ interface FormProps {
                         ))}
                         <button type="button" onClick={() => handleAddExpense('savings')}>Add Saving</button>
                         <button type="button" onClick={handlePrev}>Previous</button>
-                        <Link to={'/results'}><button onClick={handleSubmit} type="submit">Submit</button></Link>
+                        <button type="submit">Submit</button>
                     </div>
                 );
             default:
@@ -184,19 +179,6 @@ interface FormProps {
         };
     };
 
-    const netIncome = () => {
-        const { wants, needs, savings } = budgetInfo.expenses;
-        const totalWants = wants.reduce((sum, item) => sum + item.amount, 0);
-        const totalNeeds = needs.reduce((sum, item) => sum + item.amount, 0);
-        const totalSavings = savings.reduce((sum, item) => sum + item.amount, 0);
-        const totalExpenses = totalWants + totalNeeds + totalSavings;
-        return budgetInfo.grossIncome - totalExpenses;
-    };
-    const netIncomeValue = netIncome();
-    const netIncomeStyle = {
-        color: netIncomeValue > 0 ? 'green' : netIncomeValue < 0 ? 'red' : 'black'
-    };
-
     return (
         <>
         <div className="container">
@@ -207,10 +189,6 @@ interface FormProps {
             </div>
             <div className="pie-chart">
                 <PieChart data={transformDataForChart()} />
-                <div className="income-view">
-                    <h3>Gross Income: {budgetInfo.grossIncome} </h3>
-                    <h3 style={netIncomeStyle}>Net Income: {netIncome()} </h3>
-                </div>
             </div>
         </div>
         </>
