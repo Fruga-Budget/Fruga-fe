@@ -8,7 +8,7 @@ const getUserBudgetFromLocalStorage = (): UserBudget | null => {
     const storedBudget = localStorage.getItem('userBudget');
     if (storedBudget) {
         console.log("Retrieved budget from local storage:", JSON.parse(storedBudget));
-        return JSON.parse(storedBudget) as UserBudget; // Parse and return as UserBudget
+        return JSON.parse(storedBudget) as UserBudget; 
     } else {
         console.log("No budget found in local storage.");
         return null;
@@ -218,7 +218,7 @@ const Results: React.FC = () => {
                     ))}
                 </ul>
             </div>
-            <Link to={'/getting-started'}><button>Go Back!</button></Link>
+            <Link to={'/getting-started/1'}><button>Go Back!</button></Link>
         </>
     );
 };
