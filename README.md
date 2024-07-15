@@ -2,7 +2,7 @@
 
 Fruga, the simple web application that takes the guess work out of creating a workable budget. 
 
-![Fruga Results]()
+![Fruga Results](https://github.com/Fruga-Budget/Fruga-fe/blob/main/src/assets/Fruge%20Results.png)
 
 ## Description
 
