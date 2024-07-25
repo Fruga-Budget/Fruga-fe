@@ -1,24 +1,27 @@
 .container{
     display: flex;
-    height: 50vh;
+    height: 500px;
     justify-content: space-evenly;
     margin-top: 20vh;
 }
 .pie-chart{
     flex-direction: column;
     justify-self: center;
-   
 }
+
 .budget{
     width: 50vw; 
 }
+
 form>button{
     margin-right: 1rem;
 }
+
 input{
     margin-right: 2rem;
     margin-left: .5rem;
 }
+
 .form{
     display: flex;
     align-items: center;

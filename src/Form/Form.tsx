@@ -198,7 +198,6 @@ interface FormProps {
     };
 
     return (
-        <>
         <div className="container">
             <div className="budget">
                     <form className="form" onSubmit={handleSubmit}>
@@ -213,7 +212,6 @@ interface FormProps {
                 </div>
             </div>
         </div>
-        </>
     );
 };
 
