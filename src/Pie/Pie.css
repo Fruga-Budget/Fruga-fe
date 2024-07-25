@@ -2,6 +2,8 @@
     width: 100% !important;
     height: 100% !important;
     padding: 0;
+    display: flex;
+    justify-content: center;
 }
 
 .pie-chart {
@@ -10,5 +12,6 @@
     align-items: center;
     width: 100%;
     height: 100%;
-    margin-top: 20px;
+    margin: 0;
+    padding: 0;
 }
