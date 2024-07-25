@@ -113,7 +113,7 @@ interface FormProps {
                     <div>
                         <h3>Wants</h3>
                         {budgetInfo.expenses.wants.map((expense, index) => (
-                            <div key={index}>
+                            <div key={index} className="inputs">
                                 <div className="input-group">
                                 <label>Name</label>
                                 <input
@@ -144,7 +144,7 @@ interface FormProps {
                     <div>
                         <h3>Savings</h3>
                         {budgetInfo.expenses.savings.map((expense, index) => (
-                            <div key={index}>
+                            <div key={index} className="inputs">
                                 <div className="input-group">
                                 <label>Name</label>
                                 <input
