@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import './Login.css'
 // import { UserBudget } from '../Interfaces';
 
 const LoginPage = () => {
@@ -39,23 +40,24 @@ const LoginPage = () => {
   };
 
   return (
-    <div>
+    <div className='login-section'>
       <h2>Login or Register Here!</h2>
-      <form>
+      <form className='login-form'>
         {isRegistering ? (
-          <div>
+          <div className='input'>
             <label>Name:</label>
             <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
           </div>
         ) : null}
-        <div>
+        <div className='input'>
           <label>Username:</label>
           <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
         </div>
-        <div>
+        <div className='input'>
           <label>Password:</label>
           <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
         </div>
+        </form>
         <div>
           {isRegistering ? (
             <Link to={userId !== null ? `/getting-started/${userId}` : '#'}>
@@ -70,7 +72,6 @@ const LoginPage = () => {
             {isRegistering ? 'Back to Login' : 'Register'}
           </button>
         </div>
-      </form>
       {error && <p style={{ color: 'red' }}>{error}</p>}
     </div>
   );

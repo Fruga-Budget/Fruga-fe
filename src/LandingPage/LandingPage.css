@@ -32,8 +32,8 @@
 }
 
 p {
-    color: black;
     text-align: center;
+    font-weight: bolder;
 }
 
 a {
