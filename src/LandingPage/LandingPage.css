@@ -12,7 +12,7 @@
 .landing-info {
     display: flex;
     flex-direction: column;
-    width: 55%;
+    width: 59%;
 }
 
 .content {
@@ -32,8 +32,8 @@
 }
 
 p {
-    color: black;
     text-align: center;
+    font-weight: bolder;
 }
 
 a {

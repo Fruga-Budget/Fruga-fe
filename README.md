@@ -1,30 +1,62 @@
-# React + TypeScript + Vite
+# Fruga-FE
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Fruga, the simple web application that takes the guess work out of creating a workable budget. 
 
-Currently, two official plugins are available:
+![Fruga Results](https://github.com/Fruga-Budget/Fruga-fe/blob/main/src/assets/Fruge%20Results.png)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Description
 
-## Expanding the ESLint configuration
+Fruga helps users create and manage their budgets effortlessly. With an intuitive interface and powerful features, it simplifies financial planning, ensuring you stay on top of your expenses and savings goals.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+Fruga breaks down the users budget into Needs, Wants and Savings, with the ability for the user to identify how they want to further defined what constitutes as a Need, Want, and Saving. 
 
-- Configure the top-level `parserOptions` property like this:
+Fruga offer real-time allocation and visuals of how the user's income is allocated as well as the option for the user to change and add more items before submitting and getting suggestions from the chat-api service to either better their budget or let them know that their breakdown meets the 50/30/20 outline of budgting. 
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+## Getting Started
+
+### Dependencies
+
+* Node.js (NPM included)
+* TypeScript
+
+
+### Installing
+Clone the repository to your preferred directory:
+
+```
+git clone  git@github.com:Fruga-Budget/Fruga-fe.git
+cd Fruga-FE
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+Install the dependencies:
+```
+npm install
+```
+
+### Executing program
+Start the development server:
+```
+npm run dev
+```
+
+Open http://localhost:3000 in your browser to view the application.
+
+## Authors
+
+Lydia Sims
+[Lydia Sims](https://github.com/LISims88)
+
+## Version History
+* 0.1
+    * Initial Release
+
+## License
+
+This project is licensed under the Fruga Budget License - see the LICENSE.md file for details
+
+## Acknowledgments
+* [awesome-readme](https://github.com/matiassingers/awesome-readme)
+* [Vite + React](https://vitejs.dev/)
+* [Wireframe](https://www.figma.com/board/aBsoDdxHWI5jk5libvt8bQ/Fruga?node-id=0-1&t=RmTjZeOofo8UlKj0-1)
+* [NerdWallet](https://www.nerdwallet.com/article/finance/how-to-budget)
+* [Investopedia](https://www.investopedia.com/financial-edge/1109/6-reasons-why-you-need-a-budget.aspx)

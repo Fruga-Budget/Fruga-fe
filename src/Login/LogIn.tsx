@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import './Login.css'
 // import { UserBudget } from '../Interfaces';
 
 const LoginPage = () => {
@@ -39,9 +40,9 @@ const LoginPage = () => {
   };
 
   return (
-    <div>
+    <div className='login-section'>
       <h2>Login or Register Here!</h2>
-      <form>
+      <form className='login-form'>
         {isRegistering ? (
           <div>
             <label>Username:</label>
@@ -52,6 +53,7 @@ const LoginPage = () => {
           <label>Password:</label>
           <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
         </div>
+        </form>
         <div>
           <label>Confirm Password:</label>
           <input type="password" value={passwordConfirm} onChange={(e) => setPasswordConfirm(e.target.value)} />
@@ -70,7 +72,6 @@ const LoginPage = () => {
             {isRegistering ? 'Back to Login' : 'Register'}
           </button>
         </div>
-      </form>
       {error && <p style={{ color: 'red' }}>{error}</p>}
     </div>
   );

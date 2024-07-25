@@ -65,6 +65,7 @@ interface FormProps {
             case 1:
                 return (
                     <div className="form">
+                        <div className="input-group">
                         <label>Gross Income</label>
                         <input
                             type="number"
@@ -72,6 +73,7 @@ interface FormProps {
                             value={budgetInfo.grossIncome}
                             onChange={(e) => handleChange(e, 'grossIncome')}
                         />
+                        </div>
                         <button type="button" onClick={handleNext}>Next</button>
                     </div>
                 );
@@ -80,7 +82,8 @@ interface FormProps {
                     <div>
                         <h3>Needs</h3>
                         {budgetInfo.expenses.needs.map((expense, index) => (
-                            <div key={index}>
+                            <div key={index} className="inputs">
+                                <div className="input-group">
                                 <label>Name</label>
                                 <input
                                     type="text"
@@ -88,6 +91,8 @@ interface FormProps {
                                     value={expense.name}
                                     onChange={(e) => handleChange(e, 'needs', index)}
                                 />
+                                </div>
+                                <div className="input-group">
                                 <label>Amount</label>
                                 <input
                                     type="number"
@@ -95,6 +100,7 @@ interface FormProps {
                                     value={expense.amount}
                                     onChange={(e) => handleChange(e, 'needs', index)}
                                 />
+                                </div>
                             </div>
                         ))}
                         <button type="button" onClick={() => handleAddExpense('needs')}>Add Need</button>
@@ -107,7 +113,8 @@ interface FormProps {
                     <div>
                         <h3>Wants</h3>
                         {budgetInfo.expenses.wants.map((expense, index) => (
-                            <div key={index}>
+                            <div key={index} className="inputs">
+                                <div className="input-group">
                                 <label>Name</label>
                                 <input
                                     type="text"
@@ -115,6 +122,8 @@ interface FormProps {
                                     value={expense.name}
                                     onChange={(e) => handleChange(e, 'wants', index)}
                                 />
+                                </div>
+                                <div className="input-group">
                                 <label>Amount</label>
                                 <input
                                     type="number"
@@ -122,6 +131,7 @@ interface FormProps {
                                     value={expense.amount}
                                     onChange={(e) => handleChange(e, 'wants', index)}
                                 />
+                                </div>
                             </div>
                         ))}
                         <button type="button" onClick={() => handleAddExpense('wants')}>Add Want</button>
@@ -134,7 +144,8 @@ interface FormProps {
                     <div>
                         <h3>Savings</h3>
                         {budgetInfo.expenses.savings.map((expense, index) => (
-                            <div key={index}>
+                            <div key={index} className="inputs">
+                                <div className="input-group">
                                 <label>Name</label>
                                 <input
                                     type="text"
@@ -142,6 +153,8 @@ interface FormProps {
                                     value={expense.name}
                                     onChange={(e) => handleChange(e, 'savings', index)}
                                 />
+                                </div>
+                                <div className="input-group">
                                 <label>Amount</label>
                                 <input
                                     type="number"
@@ -149,6 +162,7 @@ interface FormProps {
                                     value={expense.amount}
                                     onChange={(e) => handleChange(e, 'savings', index)}
                                 />
+                                </div>
                             </div>
                         ))}
                         <button type="button" onClick={() => handleAddExpense('savings')}>Add Saving</button>
@@ -198,7 +212,6 @@ interface FormProps {
     };
 
     return (
-        <>
         <div className="container">
             <div className="budget">
                     <form className="form" onSubmit={handleSubmit}>
@@ -213,7 +226,6 @@ interface FormProps {
                 </div>
             </div>
         </div>
-        </>
     );
 };
 
