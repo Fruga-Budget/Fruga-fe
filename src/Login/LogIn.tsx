@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import './Login.css'
+import { useNavigate } from 'react-router-dom';
+import './Login.css';
 // import { UserBudget } from '../Interfaces';
 
 const LoginPage = () => {
@@ -9,27 +9,23 @@ const LoginPage = () => {
   const [passwordConfirm, setPasswordConfirm] = useState('');
   const [isRegistering, setIsRegistering] = useState(false);
   const [error, setError] = useState('');
-  const [nextUserId, setNextUserId] = useState(1); 
-  const [userId, setUserId] = useState<number | null>(null);
+  const [nextUserId, setNextUserId] = useState(1);
   const navigate = useNavigate();
 
   const handleLogin = () => {
     if (username === 'example' && password === 'password') {
-      const userId = 1;
-      setUserId(userId);
-      navigate(`/getting-started/${userId}`);
+      navigate(`/getting-started/1`);
     } else {
       setError('Invalid username or password.');
     }
   };
-  
 
   const handleRegister = () => {
     if (username && password === passwordConfirm) {
-      setUserId(nextUserId);
+      alert('Registered successfully!');
+      navigate(`/getting-started/${nextUserId}`);
       setNextUserId(nextUserId + 1);
       setIsRegistering(false);
-      alert('Registered successfully!');
     } else {
       setError('Please fill in all fields correctly.');
     }
