@@ -44,35 +44,31 @@ const LoginPage = () => {
     <div className='login-section'>
       <h2>Login or Register Here!</h2>
       <form className='login-form'>
-        {isRegistering ? (
-          <div>
-            <label>Username:</label>
-            <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
-          </div>
-        ) : null}
+        <div>
+          <label>Username:</label>
+          <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
+        </div>
         <div>
           <label>Password:</label>
           <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
         </div>
-        </form>
-        <div>
-          <label>Confirm Password:</label>
-          <input type="password" value={passwordConfirm} onChange={(e) => setPasswordConfirm(e.target.value)} />
-        </div>
-        <div>
-          {isRegistering ? (
-            <Link to={userId !== null ? `/getting-started/${userId}` : '#'}>
-              <button type="button" onClick={handleRegister}>Register</button>
-            </Link>
-          ) : (
-            <Link to={userId !== null ? `/getting-started/${userId}` : '#'}>
-              <button type="button" onClick={handleLogin}>Login</button>
-            </Link>
-          )}
-          <button type="button" onClick={toggleRegister}>
-            {isRegistering ? 'Back to Login' : 'Register'}
-          </button>
-        </div>
+        {isRegistering && (
+          <div>
+            <label>Confirm Password:</label>
+            <input type="password" value={passwordConfirm} onChange={(e) => setPasswordConfirm(e.target.value)} />
+          </div>
+        )}
+      </form>
+      <div>
+        {isRegistering ? (
+          <button type="button" onClick={handleRegister}>Register</button>
+        ) : (
+          <button type="button" onClick={handleLogin}>Login</button>
+        )}
+        <button type="button" onClick={toggleRegister}>
+          {isRegistering ? 'Back to Login' : 'Register'}
+        </button>
+      </div>
       {error && <p style={{ color: 'red' }}>{error}</p>}
     </div>
   );
