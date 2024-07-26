@@ -6,7 +6,7 @@ import './Login.css'
 const LoginPage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [name, setName] = useState('');
+  const [passwordConfirm, setPasswordConfirm] = useState('');
   const [isRegistering, setIsRegistering] = useState(false);
   const [error, setError] = useState('');
   const [nextUserId, setNextUserId] = useState(1); 
@@ -24,13 +24,13 @@ const LoginPage = () => {
   };
 
   const handleRegister = () => {
-    if (name && username && password) {
+    if (username && password === passwordConfirm) {
       setUserId(nextUserId);
       setNextUserId(nextUserId + 1);
       setIsRegistering(false);
       alert('Registered successfully!');
     } else {
-      setError('Please fill in all fields.');
+      setError('Please fill in all fields correctly.');
     }
   };
 
@@ -44,20 +44,20 @@ const LoginPage = () => {
       <h2>Login or Register Here!</h2>
       <form className='login-form'>
         {isRegistering ? (
-          <div className='input'>
-            <label>Name:</label>
-            <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
+          <div>
+            <label>Username:</label>
+            <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
           </div>
         ) : null}
-        <div className='input'>
-          <label>Username:</label>
-          <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
-        </div>
-        <div className='input'>
+        <div>
           <label>Password:</label>
           <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
         </div>
         </form>
+        <div>
+          <label>Confirm Password:</label>
+          <input type="password" value={passwordConfirm} onChange={(e) => setPasswordConfirm(e.target.value)} />
+        </div>
         <div>
           {isRegistering ? (
             <Link to={userId !== null ? `/getting-started/${userId}` : '#'}>
