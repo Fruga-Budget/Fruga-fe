@@ -22,6 +22,7 @@ const LoginPage = () => {
       setError('Invalid username or password.');
     }
   };
+  
 
   const handleRegister = () => {
     if (name && username && password) {
