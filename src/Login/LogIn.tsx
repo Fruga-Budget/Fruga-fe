@@ -31,7 +31,7 @@ const LoginPage = () => {
         console.log(data.data.attributes.user_name, 'api check')
         console.log(username, 'front end check')
         if (data.data.attributes.user_name === username) {
-          navigate(`/getting-started/${data.data.attributes.id}`);
+          navigate(`/getting-started/${data.data.id}`);
         } else {
           setError('Invalid username or password.');
         }
@@ -62,7 +62,7 @@ const LoginPage = () => {
         if (response.ok) {
           const data = await response.json();
           alert('Registered successfully!');
-          navigate(`/getting-started/${data.data.attributes.id}`); 
+          navigate(`/getting-started/${data.data.id}`); 
           setNextUserId(nextUserId + 1);
           setIsRegistering(false);
           console.log(data, 'register')
