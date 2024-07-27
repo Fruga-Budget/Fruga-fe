@@ -20,7 +20,7 @@ function App() {
       try {
         const result = await getData();
         setData(result);
-      } catch (err) {
+      } catch (err: unknown) {
         if(err instanceof Error){
           setError(error);
         }else{
@@ -31,7 +31,6 @@ function App() {
 
     fetchData();
   }, []);
-
 
   const handleFormSubmit = (budgetInfo: BudgetInfo) => { 
     localStorage.setItem('budgetInfo', JSON.stringify(budgetInfo));
@@ -47,8 +46,7 @@ function App() {
         <Route path='/:userId/results' element={<Results />} />
         {/* <Results/> will utilize the data  */}
         <Route path='/log-in'  element={<LoginForm />} />
-        {/* <Route path='/:id/saved'  element={} />
-        <Route path='/log-in'  element={} /> */}
+        {/* <Route path='/:id/saved'  element={} />*/}
       </Routes>
     </>
   )
