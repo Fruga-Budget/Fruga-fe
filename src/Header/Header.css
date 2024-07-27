@@ -1,4 +1,4 @@
-header{
+.header{
     display:flex;
     justify-content: space-between;
     flex-direction: row;
@@ -22,3 +22,4 @@ button:disabled {
     cursor: not-allowed; 
     opacity: 0.6; 
   }
+  
