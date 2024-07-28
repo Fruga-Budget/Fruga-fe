@@ -15,10 +15,13 @@ export interface LandingPageProps {
     data?: GenericPieData;
 }
 //defines an expense item
-export interface ExpenseItem {
+interface ExpenseItem {
     name: string;
     amount: number;
+    description: string; 
+    negotiable: boolean; 
 }
+
 //what expenses look like
 export interface Expenses {
     wants: ExpenseItem[];
