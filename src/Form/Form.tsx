@@ -67,8 +67,17 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
         localStorage.setItem('budgetInfo', JSON.stringify(budgetInfo));
         navigate('/results');
     };
-
     const renderStep = () => {
+        const handleDeleteExpense = (category: keyof Expenses, index: number) => {
+            setBudgetInfo({
+                ...budgetInfo,
+                expenses: {
+                    ...budgetInfo.expenses,
+                    [category]: budgetInfo.expenses[category].filter((_, i) => i !== index)
+                }
+            });
+        };
+    
         switch (step) {
             case 1:
                 return (
@@ -111,7 +120,8 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
                                 </div>
                                 <div className="input-group">
                                     <label>Description</label>
-                                    <textarea
+                                    <input
+                                        type="text"
                                         name="description"
                                         value={expense.description}
                                         onChange={(e) => handleChange(e, 'needs', index)}
@@ -128,6 +138,7 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
                                         Negotiable
                                     </label>
                                 </div>
+                                <button type="button" onClick={() => handleDeleteExpense('needs', index)}>Delete</button>
                             </div>
                         ))}
                         <button type="button" onClick={() => handleAddExpense('needs')}>Add Need</button>
@@ -161,7 +172,8 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
                                 </div>
                                 <div className="input-group">
                                     <label>Description</label>
-                                    <textarea
+                                    <input
+                                        type="text"
                                         name="description"
                                         value={expense.description}
                                         onChange={(e) => handleChange(e, 'wants', index)}
@@ -178,6 +190,7 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
                                         Negotiable
                                     </label>
                                 </div>
+                                <button type="button" onClick={() => handleDeleteExpense('wants', index)}>Delete</button>
                             </div>
                         ))}
                         <button type="button" onClick={() => handleAddExpense('wants')}>Add Want</button>
@@ -211,7 +224,8 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
                                 </div>
                                 <div className="input-group">
                                     <label>Description</label>
-                                    <textarea
+                                    <input
+                                        type="text"
                                         name="description"
                                         value={expense.description}
                                         onChange={(e) => handleChange(e, 'savings', index)}
@@ -228,18 +242,21 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
                                         Negotiable
                                     </label>
                                 </div>
+                                <button type="button" onClick={() => handleDeleteExpense('savings', index)}>Delete</button>
                             </div>
                         ))}
                         <button type="button" onClick={() => handleAddExpense('savings')}>Add Saving</button>
                         <button type="button" onClick={handlePrev}>Previous</button>
-                        <Link to={'/results'}><button onClick={handleSubmit} type="submit">Submit</button></Link>
+                        <Link to={'/results'}>
+                            <button onClick={handleSubmit} type="submit">Submit</button>
+                        </Link>
                     </div>
                 );
             default:
                 return null;
         }
     };
-
+    
 
     const transformDataForChart = () => {
         const { wants, needs, savings } = budgetInfo.expenses;
@@ -280,17 +297,21 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
 
     return (
         <div className="container">
+            <div className="pie-chart">
+                <PieChart data={transformDataForChart()} />
+                <div className="income-view">
+                    <div>
+                        <h3>Gross Income: {budgetInfo.grossIncome}</h3>
+                    </div>
+                    <div className="net">
+                        <h3 style={netIncomeStyle}>Net Income: {netIncome()}</h3>
+                    </div>
+                </div>
             <div className="budget">
                 <form className="form" onSubmit={handleSubmit}>
                     {renderStep()}
                 </form>
             </div>
-            <div className="pie-chart">
-                <PieChart data={transformDataForChart()} />
-                <div className="income-view">
-                    <h3>Gross Income: {budgetInfo.grossIncome}</h3>
-                    <h3 style={netIncomeStyle}>Net Income: {netIncome()}</h3>
-                </div>
             </div>
         </div>
     );
