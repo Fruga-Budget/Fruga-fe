@@ -6,6 +6,7 @@ import genericPieData from '../Pie/Mock';
 import Form from '../Form/Form';
 import Results from '../Results/Results';
 import LoginForm from '../Login/LogIn';
+import SavedBudgets from '../SavedBudgets/SavedBudgets';
 import { getData } from '../API/APICalls'
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
@@ -42,6 +43,7 @@ function App() {
         <Route path='/getting-started/:userId' element={<Form onSubmit={handleFormSubmit} />} />
         <Route path='/results' element={<Results />} />
         <Route path='/log-in'  element={<LoginForm />} />
+        <Route path='/saved-budgets' element={<SavedBudgets />} />
         {/* <Route path='/:id/saved'  element={} />
         <Route path='/log-in'  element={} /> */}
       </Routes>

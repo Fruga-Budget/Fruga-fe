@@ -3,11 +3,11 @@ import { UserBudget } from '../Interfaces'
 import { useState, useEffect } from 'react'
 
 
-const SavedBudgets: React.FC<UserBudget> = ({user}) => {
-    const [budgets, setBudgets] = useState([])
+const SavedBudgets: React.FC<UserBudget> = () => {  //will need to pass in the user
+    const [budgets, setBudgets] = useState<UserBudget[]>([])
 
     useEffect(() => {
-        setBudgets(user.budgets)
+        setBudgets([user.budgets])
     }) 
     
     const allUserBudgets = budgets.map((budget) => {
@@ -20,6 +20,7 @@ const SavedBudgets: React.FC<UserBudget> = ({user}) => {
     return (
         <div className='saved-budgets'>
             {/* {allUserBudgets} */}
+            <h1>This is the saved budge page</h1>
         </div>
 
     )
