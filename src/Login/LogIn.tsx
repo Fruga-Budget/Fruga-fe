@@ -12,6 +12,8 @@ const LoginPage = () => {
   const [nextUserId, setNextUserId] = useState(1); 
   const [userId, setUserId] = useState<number | null>(null);
   const navigate = useNavigate();
+  // need to set user on login, so we can get their budgets to populate in saved budgets
+  // const [user, setUser] = useState([]) // not 100% sure what this will be yet
 
   const handleLogin = () => {
     if (username === 'example' && password === 'password') {
