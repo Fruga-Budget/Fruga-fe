@@ -15,7 +15,7 @@ export interface LandingPageProps {
     data?: GenericPieData;
 }
 //defines an expense item
-interface ExpenseItem {
+export interface ExpenseItem {
     name: string;
     amount: number;
     description: string; 
