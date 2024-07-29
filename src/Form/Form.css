@@ -5,6 +5,7 @@
     align-items: center;
     margin-top: 20vh;
     justify-content: space-between;
+    margin-left: 0;
 }
 .pie-chart{
     flex-direction: column;
@@ -17,7 +18,9 @@
 .budget{
     width: 65vw;
     margin-top: 5vh;
-    padding-bottom: 3vh; 
+    padding-bottom: 3vh;
+    padding-top: 3vh; 
+    margin-left: 0;
 }
 
 form>button{
@@ -40,7 +43,7 @@ input{
     display: flex;
     flex-direction: row;
     align-items: center;
-    margin-top: 5vh;
+    margin-top: 3vh;
     justify-content: space-between;
 }
 .net{
