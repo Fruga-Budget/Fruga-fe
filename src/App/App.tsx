@@ -13,7 +13,7 @@ import { useEffect, useState } from 'react';
 
 function App() {
   const navigate = useNavigate();
-  const [data, setData] = useState<APIData>(null)
+  const [data, setData] = useState<APIData>()
   const [error, setError] = useState<Error | null>(null)
 
   useEffect(() => {
@@ -21,14 +21,17 @@ function App() {
       try {
         const result = await getData();
         setData(result);
-      } catch (err) {
-        setError(err);
+      } catch (err: unknown) {
+        if(err instanceof Error){
+          setError(error);
+        }else{
+          setError(new Error("Unknown error has occured! Please try again."))
+        }
       }
     }
 
     fetchData();
   }, []);
-
 
   const handleFormSubmit = (budgetInfo: BudgetInfo) => { 
     localStorage.setItem('budgetInfo', JSON.stringify(budgetInfo));
@@ -41,11 +44,15 @@ function App() {
       <Routes>
         <Route path='/' element={<LandingPage data={genericPieData} />} />
         <Route path='/getting-started/:userId' element={<Form onSubmit={handleFormSubmit} />} />
-        <Route path='/results' element={<Results />} />
+        <Route path='/:userId/results' element={<Results />} />
+        {/* <Results/> will utilize the data  */}
         <Route path='/log-in'  element={<LoginForm />} />
         <Route path='/saved-budgets' element={<SavedBudgets />} />
         {/* <Route path='/:id/saved'  element={} />
         <Route path='/log-in'  element={} /> */}
+
+        {/* <Route path='/:id/saved'  element={} />*/}
+
       </Routes>
     </>
   )
