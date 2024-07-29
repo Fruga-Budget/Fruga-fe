@@ -23,7 +23,6 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
     const navigate = useNavigate();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, category: keyof Expenses | 'grossIncome', index?: number) => {
-        // Type guard for HTMLInputElement
         const target = e.target as HTMLInputElement;
         const { name, value, type, checked } = target;
     
