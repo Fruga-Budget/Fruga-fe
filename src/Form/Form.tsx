@@ -98,7 +98,7 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
             console.log('Success:', responseData);
             onSubmit(budgetInfo);
             localStorage.setItem('budgetInfo', JSON.stringify(budgetInfo));
-            navigate(`${userId}/results`);
+            navigate(`/results`);
         } catch (error) {
             console.error('Error:', error);
         }
