@@ -33,7 +33,8 @@ function App() {
 
   const handleFormSubmit = (budgetInfo: BudgetInfo) => { 
     localStorage.setItem('budgetInfo', JSON.stringify(budgetInfo));
-    navigate('/results');
+    //const userId = localStorage.getItem('userId')
+    navigate(`/results`);
   };
 
   return (
@@ -41,11 +42,10 @@ function App() {
       <Header />
       <Routes>
         <Route path='/' element={<LandingPage data={genericPieData} />} />
-        <Route path='/getting-started/:userId' element={<Form onSubmit={handleFormSubmit} />} />
-        <Route path='/:userId/results' element={<Results />} />
-        {/* <Results/> will utilize the data  */}
         <Route path='/log-in'  element={<LoginForm />} />
-        {/* <Route path='/:id/saved'  element={} />*/}
+        <Route path='/getting-started/:userId' element={<Form onSubmit={handleFormSubmit} />} />
+        <Route path='/results' element={<Results />} />
+        {/* <Route path='/:id/saved'  element={} /> */}
       </Routes>
     </>
   )

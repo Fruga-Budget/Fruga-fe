@@ -4,28 +4,59 @@ import { useEffect, useState } from "react";
 import { ExpenseItem, UserBudget, GenericPieData, Expenses } from "../Interfaces";
 import { Link } from "react-router-dom";
 
-const getUserBudgetFromLocalStorage = (): UserBudget | null => {
-    const storedBudget = localStorage.getItem('userBudget');
-    if (storedBudget) {
-        console.log("Retrieved budget from local storage:", JSON.parse(storedBudget));
-        return JSON.parse(storedBudget) as UserBudget; 
-    } else {
-        console.log("No budget found in local storage.");
-        return null;
-    }
-};
-
 const Results: React.FC = () => {
     const [userBudget, setUserBudget] = useState<UserBudget | null>(null);
     const [isEditing, setIsEditing] = useState<boolean>(false);
 
     useEffect(() => {
-        const storedBudget = getUserBudgetFromLocalStorage();
-        if (storedBudget) {
-            setUserBudget(storedBudget);
-        }
+        fetchUserBudget();
     }, []);
 
+    const fetchUserBudget = async () => {
+        try {
+            const userId = localStorage.getItem('userId');
+            if (!userId) {
+                throw new Error('User ID is not available in localStorage.');
+            }
+    
+            const response = await fetch(`https://fruga-be-340d88ac3f29.herokuapp.com/api/v1/users/${userId}/advices`);
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+    
+            const responseData = await response.json();
+            console.log("API Response:", responseData);
+    
+            if (!Array.isArray(responseData.data) || responseData.data.length === 0) {
+                throw new Error('Invalid response structure: No advice data found');
+            }
+            const lastAdvice = responseData.data[responseData.data.length - 1];
+            const fetchedBudget = lastAdvice.attributes;
+    
+            if (!fetchedBudget) {
+                throw new Error('Invalid response structure: No budget data found');
+            }
+    
+            const budgetData: UserBudget = {
+                budgetID: parseInt(lastAdvice.id, 10),
+                budgetInfo: {
+                    grossIncome: fetchedBudget.total_income,
+                    expenses: {
+                        needs: fetchedBudget.expenses.needs,
+                        wants: fetchedBudget.expenses.wants,
+                        savings: fetchedBudget.expenses.savings
+                    }
+                },
+                gptAdvice: fetchedBudget.advice
+            };
+    
+            setUserBudget(budgetData);
+            console.log("Transformed budget data:", budgetData);
+        } catch (error) {
+            console.error('Error fetching budget data:', error);
+        }
+    };
+    
     const transformDataForChart = (): GenericPieData | undefined => {
         if (!userBudget) return undefined;
 
@@ -88,10 +119,34 @@ const Results: React.FC = () => {
         setUserBudget(updatedBudget);
     };
 
-    const clearLocalStorage = () => {
-        localStorage.removeItem('userBudget');
-        setUserBudget(null);
-        console.log("Cleared budget from local storage.");
+    const handleSaveChanges = async () => {
+        try {
+            const userId = localStorage.getItem('userId');
+            const response = await fetch(`https://fruga-be-340d88ac3f29.herokuapp.com/api/v1/users/${userId}/advices`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(userBudget)
+            });
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const data = await response.json();
+            const updatedBudgetData: UserBudget = {
+                budgetID: parseInt(data.data.id),
+                budgetInfo: {
+                    grossIncome: data.data.attributes.total_income,
+                    expenses: data.data.attributes.expenses
+                },
+                gptAdvice: data.data.attributes.advice
+            };
+            setUserBudget(updatedBudgetData);
+            console.log("Updated budget data:", updatedBudgetData);
+            setIsEditing(false);
+        } catch (error) {
+            console.error('Error updating budget data:', error);
+        }
     };
 
     return (
@@ -104,9 +159,6 @@ const Results: React.FC = () => {
                                 <h3>Budget</h3>
                                 <button className="edit" onClick={toggleEditMode}>
                                     {isEditing ? 'Save' : 'Edit'}
-                                </button>
-                                <button className="clear" onClick={clearLocalStorage}>
-                                    Clear Data
                                 </button>
                             </div>
                             <div className="budget-data">
@@ -170,6 +222,7 @@ const Results: React.FC = () => {
                                                 ))}
                                             </ul>
                                         </div>
+                                        <button onClick={handleSaveChanges}>Save Changes</button>
                                     </>
                                 ) : (
                                     <>
@@ -218,7 +271,7 @@ const Results: React.FC = () => {
                     ))}
                 </ul>
             </div>
-            <Link to={'/getting-started/1'}><button>Go Back!</button></Link>
+            <Link to={'/getting-started/'}><button>Go Back!</button></Link>
         </>
     );
 };
