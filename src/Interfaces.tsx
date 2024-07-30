@@ -45,3 +45,37 @@ export interface APIData {
     userBudgets: UserBudget[];
 }
 
+//what the data coming from fetching a users saved budgets will look like
+export interface SavedBudget {
+    id: string;
+    type: string;
+    attributes: {
+        total_income: number;
+        needs_total: number;
+        wants_total: number;
+        savings_total: number;
+        expenses: {
+            needs: Array<{
+                name: string;
+                amount: number;
+                description: string;
+                isNegotiable: boolean;
+            }>;
+            wants: Array<{
+                name: string;
+                amount: number;
+                description: string;
+            }>;
+            savings: Array<{
+                name: string;
+                amount: number;
+                description: string;
+            }>;
+        };
+        advice: string[];
+    };
+}
+
+
+
+
