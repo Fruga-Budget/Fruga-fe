@@ -25,7 +25,7 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, category: keyof Expenses | 'grossIncome', index?: number) => {
         const target = e.target as HTMLInputElement;
         const { name, value, type, checked } = target;
-    
+
         if (category === 'grossIncome') {
             setBudgetInfo({
                 ...budgetInfo,
@@ -36,10 +36,10 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
                 ...budgetInfo,
                 expenses: {
                     ...budgetInfo.expenses,
-                    [category]: budgetInfo.expenses[category].map((item, i) => 
-                        i === index 
-                        ? { ...item, [name]: type === 'checkbox' ? checked : name === 'amount' ? parseFloat(value) : value } 
-                        : item
+                    [category]: budgetInfo.expenses[category].map((item, i) =>
+                        i === index
+                            ? { ...item, [name]: type === 'checkbox' ? checked : name === 'amount' ? parseFloat(value) : value }
+                            : item
                     )
                 }
             });
@@ -60,23 +60,61 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
     const handleNext = () => setStep(step + 1);
     const handlePrev = () => setStep(step - 1);
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        onSubmit(budgetInfo);
-        localStorage.setItem('budgetInfo', JSON.stringify(budgetInfo));
-        navigate('/results');
-    };
-    const renderStep = () => {
-        const handleDeleteExpense = (category: keyof Expenses, index: number) => {
-            setBudgetInfo({
-                ...budgetInfo,
-                expenses: {
-                    ...budgetInfo.expenses,
-                    [category]: budgetInfo.expenses[category].filter((_, i) => i !== index)
-                }
-            });
+        const requestBody = {
+            total_income: budgetInfo.grossIncome,
+            needs: budgetInfo.expenses.needs.map(expense => ({
+                name: expense.name,
+                cost: expense.amount,
+                description: expense.description || '',
+                isNegotiable: expense.negotiable
+            })),
+            wants: budgetInfo.expenses.wants.map(expense => ({
+                name: expense.name,
+                cost: expense.amount,
+                description: expense.description || ''
+            })),
+            savings: budgetInfo.expenses.savings.map(expense => ({
+                name: expense.name,
+                cost: expense.amount,
+                description: expense.description || ''
+            }))
         };
-    
+
+        try {
+            const userId = localStorage.getItem('userId');
+            const response = await fetch(`https://fruga-be-340d88ac3f29.herokuapp.com/api/v1/users/${userId}/advices`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(requestBody)
+            });
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const responseData = await response.json();
+            console.log('Success:', responseData);
+            onSubmit(budgetInfo);
+            localStorage.setItem('budgetInfo', JSON.stringify(budgetInfo));
+            navigate(`${userId}/results`);
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
+
+    const handleDeleteExpense = (category: keyof Expenses, index: number) => {
+        setBudgetInfo({
+            ...budgetInfo,
+            expenses: {
+                ...budgetInfo.expenses,
+                [category]: budgetInfo.expenses[category].filter((_, i) => i !== index)
+            }
+        });
+    };
+
+    const renderStep = () => {
         switch (step) {
             case 1:
                 return (
@@ -178,17 +216,6 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
                                         onChange={(e) => handleChange(e, 'wants', index)}
                                     />
                                 </div>
-                                <div className="input-group">
-                                    <label>
-                                        <input
-                                            type="checkbox"
-                                            name="negotiable"
-                                            checked={expense.negotiable}
-                                            onChange={(e) => handleChange(e, 'wants', index)}
-                                        />
-                                        Negotiable
-                                    </label>
-                                </div>
                                 <button type="button" onClick={() => handleDeleteExpense('wants', index)}>Delete</button>
                             </div>
                         ))}
@@ -230,17 +257,6 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
                                         onChange={(e) => handleChange(e, 'savings', index)}
                                     />
                                 </div>
-                                <div className="input-group">
-                                    <label>
-                                        <input
-                                            type="checkbox"
-                                            name="negotiable"
-                                            checked={expense.negotiable}
-                                            onChange={(e) => handleChange(e, 'savings', index)}
-                                        />
-                                        Negotiable
-                                    </label>
-                                </div>
                                 <button type="button" onClick={() => handleDeleteExpense('savings', index)}>Delete</button>
                             </div>
                         ))}
@@ -255,14 +271,13 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
                 return null;
         }
     };
-    
 
     const transformDataForChart = () => {
         const { wants, needs, savings } = budgetInfo.expenses;
         const totalWants = wants.reduce((sum, item) => sum + item.amount, 0);
         const totalNeeds = needs.reduce((sum, item) => sum + item.amount, 0);
         const totalSavings = savings.reduce((sum, item) => sum + item.amount, 0);
-        
+
         return {
             labels: ['Needs', 'Wants', 'Savings'],
             datasets: [
@@ -306,15 +321,14 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
                         <h3 style={netIncomeStyle}>Net Income: {netIncome()}</h3>
                     </div>
                 </div>
-            <div className="budget">
-                <form className="form" onSubmit={handleSubmit}>
-                    {renderStep()}
-                </form>
-            </div>
+                <div className="budget">
+                    <form className="form" onSubmit={handleSubmit}>
+                        {renderStep()}
+                    </form>
+                </div>
             </div>
         </div>
     );
 };
-
 
 export default Form;

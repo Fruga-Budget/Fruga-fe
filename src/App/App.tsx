@@ -29,7 +29,6 @@ function App() {
         }
       }
     }
-
     fetchData();
   }, []);
 
