@@ -6,7 +6,9 @@
 
 .single-budget {
     display: flex;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
     overflow: auto;
     border: 2px solid rgb(107, 208, 236);
     border-radius: 8px;
@@ -15,4 +17,17 @@
     width: 50%;
     max-width: 600px;
     margin: 10px;
+    padding: 5px;
+}
+
+.budget-details {
+    display: flex;
+}
+
+.view-button {
+    margin: 0;
+}
+
+.budget-info {
+    display: flex;
 }
