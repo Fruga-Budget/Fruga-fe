@@ -30,7 +30,7 @@ const Results: React.FC = () => {
             if (!Array.isArray(responseData.data) || responseData.data.length === 0) {
                 throw new Error('Invalid response structure: No advice data found');
             }
-            const lastAdvice = responseData.data[responseData.data.length - 1];
+            const lastAdvice = responseData.data[responseData.data.length - 2];
             const fetchedBudget = lastAdvice.attributes;
     
             if (!fetchedBudget) {
@@ -265,11 +265,17 @@ const Results: React.FC = () => {
             </div>
             <div className="suggestion">
                 <h4>Suggestions</h4>
-                <ul>
+                <div className="advice-container">
                     {userBudget?.gptAdvice.map((advice, index) => (
-                        <li key={index}>{advice}</li>
+                        <div key={index} className="advice-item">
+                            {advice.split('\n').map((line, lineIndex) => (
+                                <div key={lineIndex}>
+                                    {line}
+                                </div>
+                            ))}
+                        </div>
                     ))}
-                </ul>
+                </div>
             </div>
             <Link to={'/getting-started/'}><button>Go Back!</button></Link>
         </>
