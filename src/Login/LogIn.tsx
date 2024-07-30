@@ -27,10 +27,11 @@ const LoginPage = () => {
 
       if (response.ok) {
         const data = await response.json();
-        console.log(data,"login")
-        console.log(data.data.attributes.user_name, 'api check')
-        console.log(username, 'front end check')
+        // console.log(data,"login")
+        // console.log(data.data.attributes.user_name, 'api check')
+        // console.log(username, 'front end check')
         if (data.data.attributes.user_name === username) {
+          localStorage.setItem('userId', data.data.id);
           navigate(`/getting-started/${data.data.id}`);
         } else {
           setError('Invalid username or password.');

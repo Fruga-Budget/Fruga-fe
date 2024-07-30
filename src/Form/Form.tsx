@@ -83,7 +83,8 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
         };
 
         try {
-            const response = await fetch(`https://fruga-be-340d88ac3f29.herokuapp.com/api/v1/users/:user_id/advices`, {
+            const userId = localStorage.getItem('userId');
+            const response = await fetch(`https://fruga-be-340d88ac3f29.herokuapp.com/api/v1/users/${userId}/advices`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -97,7 +98,7 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
             console.log('Success:', responseData);
             onSubmit(budgetInfo);
             localStorage.setItem('budgetInfo', JSON.stringify(budgetInfo));
-            navigate(`${responseData.data.id}/results`);
+            navigate(`${userId}/results`);
         } catch (error) {
             console.error('Error:', error);
         }
