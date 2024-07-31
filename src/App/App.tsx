@@ -20,6 +20,7 @@ function App() {
       try {
         const result = await getData();
         setData(result);
+        console.log(data)
       } catch (err: unknown) {
         if(err instanceof Error){
           setError(error);
