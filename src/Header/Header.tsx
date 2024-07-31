@@ -1,4 +1,4 @@
-import Fruga from "../assets/Fruga-img.jpeg"
+import Fruga from "../assets/frugabird.jpeg"
 import "./Header.css"
 import { Link } from "react-router-dom"
 function Header(){
