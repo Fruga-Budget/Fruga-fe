@@ -76,6 +76,10 @@ export interface SavedBudget {
     };
 }
 
+export interface ApiResponse {
+    data: SavedBudget[];
+  }
+
 
 
 

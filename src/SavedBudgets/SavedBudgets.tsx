@@ -2,23 +2,10 @@ import React from "react";
 import "./SavedBudgets.css";
 import { SavedBudget } from "../Interfaces";
 import { useState, useEffect } from "react";
+import { fetchUserBudgets } from "../API/APICalls";
+
 // import mockSavedBudgets from './MockSavedBudgets'
 
-async function fetchUserAdvices(userId: string): Promise<SavedBudget[]> {
-  const url = `/api/v1/users/${userId}/advices`;
-
-  try {
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error(`Error fetching budgets: ${response.status}`);
-    }
-    const data: SavedBudget[] = await response.json();
-    return data;
-  } catch (error) {
-    console.error(error);
-    return [];
-  }
-}
 
 const SavedBudgets: React.FC = () => {
   const [budgets, setBudgets] = useState<SavedBudget[]>([]);
@@ -27,12 +14,19 @@ const SavedBudgets: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const userId = "12345"; // Replace with actual user ID from local storage
+    const userId = localStorage.getItem('userId'); 
+
+    if (!userId) {
+        setError("User ID not found in local storage");
+        setIsLoading(false);
+        return;
+      }
 
     const fetchData = async () => {
       setIsLoading(true);
       try {
-        const fetchedBudgets = await fetchUserAdvices(userId);
+        const fetchedBudgets = await fetchUserBudgets(userId);
+        console.log(fetchedBudgets, 'fethced')
         setBudgets(fetchedBudgets);
       } catch (err) {
         setError("Failed to load budgets");

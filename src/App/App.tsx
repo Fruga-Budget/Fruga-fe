@@ -44,7 +44,7 @@ function App() {
       <Routes>
         <Route path='/' element={<LandingPage data={genericPieData} />} />
         <Route path='/log-in'  element={<LoginForm />} />
-        <Route path='/saved-budgets' element={<SavedBudgets />} />
+        <Route path='/saved-budgets' element={<SavedBudgets data={data}/>} />
         {/* <Route path='/:id/saved'  element={} />
         <Route path='/log-in'  element={} /> */}
 
