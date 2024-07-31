@@ -30,7 +30,7 @@ const Results: React.FC = () => {
             if (!Array.isArray(responseData.data) || responseData.data.length === 0) {
                 throw new Error('Invalid response structure: No advice data found');
             }
-            const lastAdvice = responseData.data[responseData.data.length - 2];
+            const lastAdvice = responseData.data[responseData.data.length - 1];
             const fetchedBudget = lastAdvice.attributes;
     
             if (!fetchedBudget) {
