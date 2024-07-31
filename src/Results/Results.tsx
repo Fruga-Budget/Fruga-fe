@@ -7,18 +7,18 @@ import { Link } from "react-router-dom";
 const Results: React.FC = () => {
     const [userBudget, setUserBudget] = useState<UserBudget | null>(null);
     const [isEditing, setIsEditing] = useState<boolean>(false);
+    const [userId, setUserId] = useState<string | null>(null);
 
     useEffect(() => {
-        fetchUserBudget();
+        const storedUserId = localStorage.getItem('userId');
+        setUserId(storedUserId);
+        if (storedUserId) {
+            fetchUserBudget(storedUserId);
+        }
     }, []);
 
-    const fetchUserBudget = async () => {
+    const fetchUserBudget = async (userId: string) => {
         try {
-            const userId = localStorage.getItem('userId');
-            if (!userId) {
-                throw new Error('User ID is not available in localStorage.');
-            }
-    
             const response = await fetch(`https://fruga-be-340d88ac3f29.herokuapp.com/api/v1/users/${userId}/advices`);
             if (!response.ok) {
                 throw new Error('Network response was not ok');
@@ -56,7 +56,7 @@ const Results: React.FC = () => {
             console.error('Error fetching budget data:', error);
         }
     };
-    
+
     const transformDataForChart = (): GenericPieData | undefined => {
         if (!userBudget) return undefined;
 
@@ -122,6 +122,9 @@ const Results: React.FC = () => {
     const handleSaveChanges = async () => {
         try {
             const userId = localStorage.getItem('userId');
+            if (!userId) {
+                throw new Error('User ID is not available in localStorage.');
+            }
             const response = await fetch(`https://fruga-be-340d88ac3f29.herokuapp.com/api/v1/users/${userId}/advices`, {
                 method: 'PUT',
                 headers: {
@@ -277,7 +280,7 @@ const Results: React.FC = () => {
                     ))}
                 </div>
             </div>
-            <Link to={'/getting-started/'}><button>Go Back!</button></Link>
+            <Link to={`/getting-started/${userId}`}><button>Go Back!</button></Link>
         </>
     );
 };
