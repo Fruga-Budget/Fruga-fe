@@ -1,4 +1,4 @@
-import {APIData} from '../Interfaces'
+import {APIData, ApiResponse, SavedBudget} from '../Interfaces'
 export async function getData(): Promise<APIData> {
     const userId = localStorage.getItem('userId');
     try {
@@ -22,3 +22,19 @@ export async function getData(): Promise<APIData> {
         throw error;
     }
 }
+
+export async function fetchUserBudgets(userId: string): Promise<SavedBudget[]> {
+    const url = `https://fruga-be-340d88ac3f29.herokuapp.com/api/v1/users/${userId}/advices`;
+  
+    try {
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`Error fetching budgets: ${response.status}`);
+      }
+      const data: ApiResponse = await response.json();
+      return data.data;
+    } catch (error) {
+      console.error(error);
+      return [] ;
+    }
+  }
