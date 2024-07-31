@@ -18,7 +18,10 @@ export interface LandingPageProps {
 export interface ExpenseItem {
     name: string;
     amount: number;
+    description: string; 
+    negotiable: boolean; 
 }
+
 //what expenses look like
 export interface Expenses {
     wants: ExpenseItem[];

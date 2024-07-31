@@ -9,23 +9,71 @@ const LoginPage = () => {
   const [passwordConfirm, setPasswordConfirm] = useState('');
   const [isRegistering, setIsRegistering] = useState(false);
   const [error, setError] = useState('');
-  const [nextUserId, setNextUserId] = useState(1);
+  const [nextUserId, setNextUserId] = useState(0);
   const navigate = useNavigate();
 
-  const handleLogin = () => {
-    if (username === 'example' && password === 'password') {
-      navigate(`/getting-started/1`);
-    } else {
-      setError('Invalid username or password.');
+  const handleLogin = async () => {
+    try {
+      const response = await fetch('https://fruga-be-340d88ac3f29.herokuapp.com/api/v1/sessions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          user_name: username,
+          password: password,
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        // console.log(data,"login")
+        // console.log(data.data.attributes.user_name, 'api check')
+        // console.log(username, 'front end check')
+        if (data.data.attributes.user_name === username) {
+          localStorage.setItem('userId', data.data.id);
+          navigate(`/getting-started/${data.data.id}`);
+        } else {
+          setError('Invalid username or password.');
+        }
+      } else {
+        const errorData = await response.json();
+        setError(errorData.message || 'Login failed.');
+      }
+    } catch (error) {
+      setError('An error occurred during login.');
     }
   };
 
-  const handleRegister = () => {
+  const handleRegister = async () => {
     if (username && password === passwordConfirm) {
-      alert('Registered successfully!');
-      navigate(`/getting-started/${nextUserId}`);
-      setNextUserId(nextUserId + 1);
-      setIsRegistering(false);
+      try {
+        const response = await fetch('https://fruga-be-340d88ac3f29.herokuapp.com/api/v1/users', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            user_name: username,
+            password,
+            password_confirmation: passwordConfirm,
+          }),
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          alert('Registered successfully!');
+          navigate(`/getting-started/${data.data.id}`); 
+          setNextUserId(nextUserId + 1);
+          setIsRegistering(false);
+          console.log(data, 'register')
+        } else {
+          const errorData = await response.json();
+          setError(errorData.message || 'Registration failed.');
+        }
+      } catch (error) {
+        setError('An error occurred during registration.');
+      }
     } else {
       setError('Please fill in all fields correctly.');
     }

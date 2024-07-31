@@ -12,7 +12,7 @@ import { useEffect, useState } from 'react';
 
 function App() {
   const navigate = useNavigate();
-  const [data, setData] = useState<APIData>(null)
+  const [data, setData] = useState<APIData>()
   const [error, setError] = useState<Error | null>(null)
 
   useEffect(() => {
@@ -20,18 +20,22 @@ function App() {
       try {
         const result = await getData();
         setData(result);
-      } catch (err) {
-        setError(err);
+        console.log(data)
+      } catch (err: unknown) {
+        if(err instanceof Error){
+          setError(error);
+        }else{
+          setError(new Error("Unknown error has occured! Please try again."))
+        }
       }
     }
-
     fetchData();
   }, []);
 
-
   const handleFormSubmit = (budgetInfo: BudgetInfo) => { 
     localStorage.setItem('budgetInfo', JSON.stringify(budgetInfo));
-    navigate('/results');
+    //const userId = localStorage.getItem('userId')
+    navigate(`/results`);
   };
 
   return (
@@ -39,11 +43,10 @@ function App() {
       <Header />
       <Routes>
         <Route path='/' element={<LandingPage data={genericPieData} />} />
+        <Route path='/log-in'  element={<LoginForm />} />
         <Route path='/getting-started/:userId' element={<Form onSubmit={handleFormSubmit} />} />
         <Route path='/results' element={<Results />} />
-        <Route path='/log-in'  element={<LoginForm />} />
-        {/* <Route path='/:id/saved'  element={} />
-        <Route path='/log-in'  element={} /> */}
+        {/* <Route path='/:id/saved'  element={} /> */}
       </Routes>
     </>
   )
