@@ -1,0 +1,22 @@
+[
+    {
+      "id": "1",
+      "attributes": {
+        "total_income": 5000,
+        "needs_total": 2000,
+        "wants_total": 1000,
+        "savings_total": 2000,
+        "advice": ["Save more", "Reduce expenses"]
+      }
+    },
+    {
+      "id": "2",
+      "attributes": {
+        "total_income": 7000,
+        "needs_total": 2500,
+        "wants_total": 1500,
+        "savings_total": 3000,
+        "advice": ["Invest wisely", "Track spending"]
+      }
+    }
+  ]

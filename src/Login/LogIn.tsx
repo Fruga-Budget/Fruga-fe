@@ -90,16 +90,16 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
       <form className='login-form'>
         <div>
           <label>Username:</label>
-          <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
+          <input className='login-input' type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
         </div>
         <div>
           <label>Password:</label>
-          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+          <input className='login-input' type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
         </div>
         {isRegistering && (
           <div>
             <label>Confirm Password:</label>
-            <input type="password" value={passwordConfirm} onChange={(e) => setPasswordConfirm(e.target.value)} />
+            <input className='login-input' type="password" value={passwordConfirm} onChange={(e) => setPasswordConfirm(e.target.value)} />
           </div>
         )}
       </form>
