@@ -1,3 +1,5 @@
+/// <reference types="cypress" />
+
 describe('Form', () => {
   beforeEach(() => {
     cy.visit('http://localhost:3000/getting-started/1');

@@ -10,7 +10,7 @@
     flex-direction: column;
 }
 
-.input {
+.login-input {
     display: flex;
     justify-content: flex-end;
     margin: 5px;
