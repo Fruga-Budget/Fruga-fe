@@ -21,7 +21,7 @@ describe('Login', () => {
     cy.get('input[type="password"]').first().should('have.class', 'login-input').should('be.visible');
   })
   it('it has buttons', () => {
-    cy.get('button').should('have.length', 4);
+    cy.get('button').should('have.length', 3);
   })
   it('has a button to login', () => {
     cy.contains('button', 'Login').should('be.visible');
