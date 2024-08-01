@@ -2,13 +2,16 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
 
-const LoginPage = () => {
+interface LoginPageProps {
+  onLogin: () => void;
+}
+
+const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
   const [isRegistering, setIsRegistering] = useState(false);
   const [error, setError] = useState('');
-  const [nextUserId, setNextUserId] = useState(0);
   const navigate = useNavigate();
 
   const handleLogin = async () => {
@@ -28,6 +31,7 @@ const LoginPage = () => {
         const data = await response.json();
         if (data.data.attributes.user_name === username) {
           localStorage.setItem('userId', data.data.id);
+          onLogin(); // Notify the parent component about the login
           navigate(`/getting-started/${data.data.id}`);
         } else {
           setError('Invalid username or password.');
@@ -59,8 +63,9 @@ const LoginPage = () => {
         if (response.ok) {
           const data = await response.json();
           alert('Registered successfully!');
-          navigate(`/getting-started/${data.data.id}`); 
-          setNextUserId(nextUserId + 1);
+          localStorage.setItem('userId', data.data.id);
+          onLogin(); // Notify the parent component about the login
+          navigate(`/getting-started/${data.data.id}`);
           setIsRegistering(false);
         } else {
           const errorData = await response.json();
