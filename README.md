@@ -41,10 +41,18 @@ npm run dev
 
 Open http://localhost:3000 in your browser to view the application.
 
+## Testing
+To run Cypress testing 
+```
+npm run cypress:open
+```
+
 ## Authors
 
-Lydia Sims
+- Lydia Sims
 [Lydia Sims](https://github.com/LISims88)
+- Brandon Doza
+[Brandon Doza](https://github.com/BrandonDoza)
 
 ## Version History
 * 0.1
