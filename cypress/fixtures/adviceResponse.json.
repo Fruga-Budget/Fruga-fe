@@ -1,0 +1,27 @@
+{
+  "data": {
+    "id": "3",
+    "type": "advice",
+    "attributes": {
+      "total_income": 5000,
+      "needs_total": 1200,
+      "wants_total": 1500,
+      "savings_total": 500,
+      "expenses": {
+        "needs": [
+          {"name": "Rent", "amount": 1200, "description": "", "isNegotiable": false}
+        ],
+        "wants": [
+          {"name": "Vacation", "amount": 1500, "description": ""}
+        ],
+        "savings": [
+          {"name": "Emergency Fund", "amount": 500, "description": ""}
+        ]
+      },
+      "advice": [
+        "Your submitted budget is being processed.",
+        "Here's a summary of your budget: Needs: Rent $1200; Wants: Vacation $1500; Savings: Emergency Fund $500."
+      ]
+    }
+  }
+}
