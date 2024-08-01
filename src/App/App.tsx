@@ -13,20 +13,21 @@ import { useEffect, useState } from 'react';
 
 function App() {
   const navigate = useNavigate();
-  const [data, setData] = useState<APIData>()
-  const [error, setError] = useState<Error | null>(null)
+  const [data, setData] = useState<APIData>();
+  const [error, setError] = useState<Error | null>(null);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(!!localStorage.getItem('userId'));
 
   useEffect(() => {
     async function fetchData() {
       try {
         const result = await getData();
         setData(result);
-        console.log(data)
+        console.log(data);
       } catch (err: unknown) {
-        if(err instanceof Error){
+        if (err instanceof Error) {
           setError(error);
-        }else{
-          setError(new Error("Unknown error has occured! Please try again."))
+        } else {
+          setError(new Error("Unknown error has occured! Please try again."));
         }
       }
     }
@@ -35,27 +36,28 @@ function App() {
 
   const handleFormSubmit = (budgetInfo: BudgetInfo) => { 
     localStorage.setItem('budgetInfo', JSON.stringify(budgetInfo));
-    //const userId = localStorage.getItem('userId')
     navigate(`/results`);
+  };
+
+  const handleLogin = () => {
+    setIsLoggedIn(true);
+  };
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    localStorage.removeItem('userId');
+    navigate('/log-in');
   };
 
   return (
     <>
-      <Header />
+      <Header isLoggedIn={isLoggedIn} onLogout={handleLogout} />
       <Routes>
         <Route path='/' element={<LandingPage data={genericPieData} />} />
-        <Route path='/log-in'  element={<LoginForm />} />
-        <Route path='/saved-budgets' element={<SavedBudgets data={data}/>} />
-        {/* <Route path='/:id/saved'  element={} />
-        <Route path='/log-in'  element={} /> */}
-
-        {/* <Route path='/:id/saved'  element={} />*/}
-
-
+        <Route path='/log-in' element={<LoginForm onLogin={handleLogin} />} />
         <Route path='/getting-started/:userId' element={<Form onSubmit={handleFormSubmit} />} />
         <Route path='/results' element={<Results />} />
-        {/* <Route path='/:id/saved'  element={} /> */}
-
+        <Route path='/saved-budgets' element={<SavedBudgets />} />
       </Routes>
     </>
   )

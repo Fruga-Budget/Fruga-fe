@@ -9,26 +9,39 @@
     text-align: center;
 }
 
+div.budget {
+    margin-top: 5vh;
+    padding-bottom: 3vh;
+    padding-top: 3vh;
+    width: 80%;
+    margin-left: 3vh;
+}
+div.fruga{
+    width: 70%;
+    margin-left: 8.24634655532359vh;
+
+}
+
 .landing-info {
     display: flex;
     flex-direction: column;
-    width: 59%;
+    width: 60%;
+    margin-left: .5rem;
 }
 
 .content {
     display: inline-flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
     align-items: flex-start;
 }
 
-.pie-chart {
+.landing-pie-chart {
     display: flex;
     flex-direction: row-reverse;
-    justify-content: center;
-    margin-left: 2rem;
-    padding-left: 3rem;
+    margin-right: 2rem;
+    padding-right: 3rem;
     margin-top: 4rem;
-    width: 55%;
+    width: 35%;
 }
 
 p {
