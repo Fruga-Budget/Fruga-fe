@@ -4,9 +4,6 @@ import { SavedBudget } from "../Interfaces";
 import { useState, useEffect } from "react";
 import { fetchUserBudgets } from "../API/APICalls";
 
-// import mockSavedBudgets from './MockSavedBudgets'
-
-
 const SavedBudgets: React.FC = () => {
   const [budgets, setBudgets] = useState<SavedBudget[]>([]);
   const [selectedBudgetId, setSelectedBudgetId] = useState<string | null>(null);

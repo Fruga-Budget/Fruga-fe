@@ -23,7 +23,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ data }) => {
                             <a href="https://www.nerdwallet.com/article/finance/how-to-budget">How to Budget</a>
                         </div>
                     </div>
-                    <aside className="pie-chart">
+                    <aside className="landing-pie-chart">
                         <PieChart data={data} />
                     </aside>
                 </div>
